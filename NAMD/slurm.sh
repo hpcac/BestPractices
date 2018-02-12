@@ -2,7 +2,7 @@
 ## Replace with the job name that you intend to use
 #SBATCH --job-name=namd2
 
-## Replace with the actual account on the cluster that you intend to use
+## Replace with the actual account on the cluster that you intend to use (run "sacctmgr show assoc user=$USER" to check your account)
 #SBATCH --account=hpcac
 
 ## Replace with the actual partition that you intend to use
