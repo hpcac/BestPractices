@@ -7,12 +7,14 @@ $ git clone https://github.com/hpcac/BestPractices
 
 
 $ ls
+
 BestPractices
 
 
 $ cd BestPractices/NAMD/
 
 $ ls
+
 slurm.sh
 
 
