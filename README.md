@@ -18,3 +18,8 @@ $ ls
 slurm.sh
 
 
+After edit, simpliy run the slurm batch using the script 
+
+$ sbatch slurm.sh
+
+And check the results
