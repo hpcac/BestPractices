@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -l
 ## Replace with the job name that you intend to use
 #SBATCH --job-name=tensorflow
 
