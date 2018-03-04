@@ -33,7 +33,18 @@ HCOLL_FLAGS="-mca coll_fca_enable 0 -mca coll_hcoll_enable 1 -x HCOLL_MAIN_IB=ml
 EXE=namd2
 
 ## Replace with the actual input file that you intend to use
-INPUT=apoa1/apoa1.namd
+INPUT=apoa1.namd
+
+## Prepare example directory
+cd $SLURM_SUBMIT_DIR
+mkdir namd
+cd namd
+
+## Download ApoA1 benchmark
+wget -c http://www.ks.uiuc.edu/Research/namd/utilities/apoa1.tar.gz
+tar zxpvf apoa1.tar.gz
+cd apoa1
+sed -i.bak 's/\/usr//' apoa1.namd
 
 ## Run it
-mpirun ${MPI_FLAGS} ${UCX_FLAGS} ${HCOLL_FLAGS} ${EXE} ${INPUT}
+time mpirun ${MPI_FLAGS} ${UCX_FLAGS} ${HCOLL_FLAGS} ${EXE} ${INPUT}

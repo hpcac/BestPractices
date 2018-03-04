@@ -33,18 +33,18 @@ cd $SLURM_SUBMIT_DIR
 mkdir openfoam
 cd openfoam
 
-# Copy a tutorial
+## Copy a tutorial
 cp -r $OPENFOAM_DIR/tutorials/incompressible/simpleFoam/pitzDailyExptInlet ./
 cd pitzDailyExptInlet
 
-# Run blockMesh
+## Run blockMesh
 blockMesh
 
-# Run simpleFoam in serial to make sure it works
+## Run simpleFoam in serial to make sure it works
 time simpleFoam
 
-# Decompose the mesh
+## Decompose the mesh
 decomposePar
 
-# Run simpleFoam in parallel
+## Run simpleFoam in parallel
 time mpirun ${MPI_FLAGS} ${UCX_FLAGS} ${HCOLL_FLAGS} simpleFoam -parallel
