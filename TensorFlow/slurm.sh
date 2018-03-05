@@ -11,9 +11,6 @@
 ## Require nodes with K20 GPUs
 #SBATCH --constraint=jupiter_k20
 
-## Replace with the actual QoS that you intend to use (no need to change in most cases)
-#SBATCH --qos=low
-
 ## Replace with the actual number of nodes that you intend to use
 #SBATCH --nodes=1
 

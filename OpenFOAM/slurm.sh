@@ -8,9 +8,6 @@
 ## Replace with the actual partition that you intend to use
 #SBATCH --partition=thor
 
-## Replace with the actual QoS that you intend to use (no need to change in most cases)
-#SBATCH --qos=low
-
 ## Replace with the actual number of nodes that you intend to use
 #SBATCH --nodes=1
 
