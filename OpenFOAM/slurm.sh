@@ -20,11 +20,11 @@
 ## Replace with the actual wall clock time limit that you intend to use
 #SBATCH --time=30:00
 
-## Load the current version of NAMD module
+## Load the current version of module
 module purge
 module load cfd/openfoam/v1712-hpcx-2.1.0-intel-2018.1.163
 
-## The recommended best practice to run NAMD
+## The recommended best practice
 MPI_FLAGS="--display-map --report-bindings --map-by core --bind-to core"
 UCX_FLAGS="-mca pml ucx -x UCX_NET_DEVICES=mlx5_0:1"
 HCOLL_FLAGS="-mca coll_fca_enable 0 -mca coll_hcoll_enable 1 -x HCOLL_MAIN_IB=mlx5_0:1"

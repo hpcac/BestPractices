@@ -1,6 +1,6 @@
 #!/bin/bash -l
 ## Replace with the job name that you intend to use
-#SBATCH --job-name=namd2
+#SBATCH --job-name=gromacs
 
 ## Replace with the actual account on the cluster that you intend to use (run "sacctmgr show assoc user=$USER" to check your account)
 #SBATCH --account=hpcac
@@ -22,29 +22,30 @@
 
 ## Load the current version of module
 module purge
-module load md/namd/2.12-hpcx-2.0.0-intel-2018.1.163
+module load md/gromacs/2018-hpcx-2.1.0-intel-2018.1.163
 
 ## The recommended best practice
 MPI_FLAGS="--display-map --report-bindings --map-by core --bind-to core"
-UCX_FLAGS="-mca pml ucx -mca mtl ^mxm -x UCX_NET_DEVICES=mlx5_0:1 -x UCX_TLS=rc_x,shm,self"
+UCX_FLAGS="-mca pml ucx -x UCX_NET_DEVICES=mlx5_0:1"
 HCOLL_FLAGS="-mca coll_fca_enable 0 -mca coll_hcoll_enable 1 -x HCOLL_MAIN_IB=mlx5_0:1"
 
 ## The executable
-EXE=namd2
-
-## Replace with the actual input file that you intend to use
-INPUT=apoa1.namd
+EXE=gmx_mpi
 
 ## Prepare example directory
 cd $SLURM_SUBMIT_DIR
-mkdir namd
-cd namd
+mkdir gromacs
+cd gromacs
 
-## Download ApoA1 benchmark
-wget -c http://www.ks.uiuc.edu/Research/namd/utilities/apoa1.tar.gz
-tar zxpvf apoa1.tar.gz
-cd apoa1
-sed -i.bak 's/\/usr//' apoa1.namd
+## Download benchmark
+wget -c ftp://ftp.gromacs.org/pub/benchmarks/gmxbench-3.0.tar.gz
+tar zxpvf gmxbench-3.0.tar.gz
+cd d.dppc
+sed -i.bak 's/#include "spc.itp"/#include "amber99sb-ildn.ff\/tip3p.itp"/' topol.top
+sed -i.bak 's/rcoulomb                 = 1.8/rcoulomb                 = 1.0/' grompp.mdp
+
+## Prepare the run
+${EXE} grompp -f grompp.mdp -c conf.gro -p topol.top -o mdrun.tpr
 
 ## Run it
-time mpirun ${MPI_FLAGS} ${UCX_FLAGS} ${HCOLL_FLAGS} ${EXE} ${INPUT}
+time mpirun ${MPI_FLAGS} ${UCX_FLAGS} ${HCOLL_FLAGS} ${EXE} mdrun -s mdrun.tpr
